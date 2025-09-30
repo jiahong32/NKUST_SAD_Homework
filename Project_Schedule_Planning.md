@@ -15,7 +15,6 @@ gantt
   title 企劃與設計
   dateFormat  YYYY-MM-DD
   axisFormat  %m/%d
-  excludes    weekends
 
   section 企劃
   制定計畫              :2025-10-01, 3d
@@ -34,7 +33,6 @@ gantt
   title 前端（Flutter + Web）
   dateFormat  YYYY-MM-DD
   axisFormat  %m/%d
-  excludes    weekends
 
   section Flutter App
   拍攝偵測              :2025-10-18, 2025-10-21
@@ -56,7 +54,6 @@ gantt
   title 後端（Flutter + Web）與測試
   dateFormat  YYYY-MM-DD
   axisFormat  %m/%d
-  excludes    weekends
 
   section 後端（App）
   登入/註冊              :2025-10-10, 2025-10-13
