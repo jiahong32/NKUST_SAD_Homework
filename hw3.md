@@ -1,5 +1,7 @@
 # ParkiPal - 智慧型居家帕金森氏症動作評估系統
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8801b95e-a597-493a-b976-5a59fba39cdf" width="100%" alt="背景動畫">
+</p>
 ## 第七組
 **組長:** 簡家鴻  
 **組員:** 林竣翔、林修同、葉峯菁
