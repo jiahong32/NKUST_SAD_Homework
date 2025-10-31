@@ -205,3 +205,7 @@ classDiagram
     DetailCard ..> PredictionResultDto : displays
     AnalysisRecord <.. DetailCard : persist local cache (Hive)
 ```
+
+# UML 類別圖
+![UML_Class](assets/UML.png)
+
