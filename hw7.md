@@ -1,5 +1,5 @@
 # ParkiPal - 智慧型居家帕金森氏症動作評估系統
-## 分鏡板
+## ERD圖
 ![Storyboard](assets/ERD.png)
 
 -------------
