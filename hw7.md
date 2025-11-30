@@ -1,9 +1,5 @@
 # ParkiPal - 智慧型居家帕金森氏症動作評估系統
 ## ERD圖
-![Storyboard](assets/ERD.png)
-
--------------
-### 用程式碼產生的
 ```mermaid
 erDiagram
 
