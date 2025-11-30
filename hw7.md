@@ -1,5 +1,52 @@
 # ParkiPal - 智慧型居家帕金森氏症動作評估系統
-## ERD圖
+
+-----
+## APP端ERD圖
+```mermaid
+erDiagram
+    direction LR
+
+    VIDEO_ENTRY ||--o{ ANALYSIS_RECORD : "has analyses"
+
+    VIDEO_ENTRY {
+        string id          PK "每支影片唯一 ID (uuid)"
+        string displayName    "顯示用名稱"
+        string filePath       "影片實體檔案完整路徑"
+        string thumbPath      "縮圖檔案完整路徑"
+        int    durationMs     "影片長度(毫秒)"
+        int    sizeBytes      "檔案大小(位元組)"
+        string extension      "副檔名 (mp4/mov)"
+        date   createdAt      "匯入時間"
+    }
+
+    ANALYSIS_RECORD {
+        string id                 PK "分析紀錄唯一 ID"
+        string videoPath             "來源影片路徑（對應 VIDEO_ENTRY.filePath）"
+        string displayName           "來源影片名稱"
+        string thumbPath             "縮圖路徑"
+        int    durationMs            "影片長度(毫秒)"
+        date   createdAt             "建立時間"
+        string status                "狀態：已完成 / 分析中 / 失敗"
+        string keypointsJsonPath     "關鍵點 JSON 檔案路徑"
+        int    startMs               "分析區段起始毫秒"
+        int    endMs                 "分析區段結束毫秒"
+        string firebaseUserId        "Firebase 使用者 ID (nullable)"
+        float  riskScore             "風險分數 (nullable)"
+        string riskLevel             "風險等級 (nullable)"
+        string analysisJson          "分析結果 JSON (nullable)"
+        string criteriaScoresJson    "各項指標分數 JSON (nullable)"
+        string severityLevel         "嚴重度等級 (nullable)"
+        float  severityScore         "嚴重度分數 (nullable)"
+        int    severityClass         "嚴重度類別編碼 (nullable)"
+        float  confidence            "模型信心度 (nullable)"
+        string handType              "手別：left/right (nullable)"
+    }
+
+    ANALYSIS_RECORD }o--|| VIDEO_ENTRY : "videoPath -> filePath"
+```
+
+------
+## WEB平台端ERD圖
 ```mermaid
 erDiagram
 
