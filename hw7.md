@@ -78,6 +78,9 @@ erDiagram
 
   NOTIFICATION {
     int     id PK             "主鍵"
+    uuid    doctor_id FK      "接收醫師 (HospitalUser 外鍵)"
+    string  sender_type       "發送者類型 (patient / admin)"
+    string  sender_id         "發送者 ID（病患或管理者 UUID）"
     string  title             "標題"
     text    content           "內容"
     datetime created_at       "建立時間 (index)"
@@ -85,6 +88,14 @@ erDiagram
     boolean in_trash          "是否在垃圾桶 (index)"
     datetime trashed_at       "丟入垃圾桶時間"
     boolean is_read           "是否已讀 (index)"
+  }
+
+  TAG {
+    int     id PK             "主鍵"
+    uuid    owner_id FK       "擁有者 (HospitalUser 外鍵)"
+    string  name              "標籤名稱"
+    string  color             "標籤顏色 (HEX)"
+    datetime created_at       "建立時間"
   }
 
   PATIENTS {
@@ -104,9 +115,9 @@ erDiagram
     uuid    patient_id FK     "患者外鍵"
     string  spec_version      "規格版本"
     datetime received_at      "接收時間"
-    string  status            "處理狀態 QUEUED/PROCESSING/..."
+    string  status            "處理狀態 QUEUED / PROCESSING / FAILED / SUCCEEDED"
     bigint  content_size_total "總內容大小"
-    string  hands_expected    "預期手別 left/right/both"
+    string  hands_expected    "預期手別 left / right / both"
     text    error_message     "錯誤訊息"
     string  idempotency_key   "冪等鍵 (unique, 可空)"
   }
@@ -114,12 +125,12 @@ erDiagram
   UPLOAD_HAND {
     uuid    id PK             "主鍵"
     uuid    upload_id FK      "Upload 外鍵"
-    string  hand              "left/right"
+    string  hand              "手別 (left / right)"
     string  storage_url       "檔案儲存 URL"
     string  checksum_sha256   "SHA256 校驗值"
     bigint  content_size      "內容大小"
     datetime received_at      "接收時間"
-    string  status            "處理狀態 QUEUED/PROCESSING/..."
+    string  status            "處理狀態 QUEUED / PROCESSING / FAILED / SUCCEEDED"
     float   fps_measured      "實測 FPS"
     int     frames_count      "影格數量"
     float   missing_rate      "遺失率"
@@ -133,6 +144,7 @@ erDiagram
     uuid    upload_id FK      "Upload 外鍵"
     float   risk_score        "風險分數"
     string  risk_level        "風險等級"
+    float   confidence        "模型信心值"
     json    features          "特徵 JSON"
     json    criteria_scores   "各指標分數 JSON"
     json    analysis          "分析結果 JSON"
@@ -142,18 +154,20 @@ erDiagram
 
   USER_PATIENTS {
     uuid    id PK             "關聯ID"
-    uuid    user_id FK        "醫師 (HospitalUser)"
-    uuid    patient_id FK     "患者 (Patients)"
+    uuid    user_id FK        "醫師 (HospitalUser 外鍵)"
+    uuid    patient_id FK     "患者 (Patients 外鍵)"
     datetime assigned_at      "建立關聯時間"
     datetime expires_at       "關聯結束時間"
   }
 
-
-  %% 關聯關係
+  %% 關聯關係（保留中文語意）
 
   HOSPITAL_USER ||--o{ LINK_CODE : "產生多個驗證碼"
   HOSPITAL_USER ||--o{ USER_PATIENTS : "關聯多個患者"
   PATIENTS      ||--o{ USER_PATIENTS : "被多位醫師關聯"
+
+  HOSPITAL_USER ||--o{ NOTIFICATION : "接收通知"
+  NOTIFICATION  }o--o{ TAG : "通知可套用多個標籤"
 
   PATIENTS      ||--o{ UPLOAD : "有多次上傳"
   UPLOAD        ||--o{ UPLOAD_HAND : "每次上傳多個手部影片"
